@@ -81,7 +81,7 @@ func main() {
 	fmt.Println("Result 3:", result3)
 }
 
-``
+```
 ## How to Contribute
 
 Contributions to oyzem are welcome! If you want to add, fix, or improve features, follow these steps:
