@@ -7,13 +7,13 @@ import (
 )
 
 type Memoizer struct {
-	cache map[string]interface{}
+	cache map[string]reflect.Value
 	mu    sync.Mutex
 }
 
 func New() *Memoizer {
 	return &Memoizer{
-		cache: make(map[string]interface{}),
+		cache: make(map[string]reflect.Value),
 	}
 }
 
@@ -52,13 +52,13 @@ func (m *Memoizer) Memoize(fn interface{}) (func(...interface{}) (interface{}, e
 		defer m.mu.Unlock()
 
 		if result, ok := m.cache[key]; ok {
-			return result, nil
+			return result.Interface(), nil
 		}
 
 		resultValues := fnValue.Call(inArgs)
-		result := resultValues[0].Interface()
+		result := resultValues[0]
 		m.cache[key] = result
-		return result, nil
+		return result.Interface(), nil
 	}, nil
 }
 
@@ -69,5 +69,5 @@ func (m *Memoizer) Run(memoizedFn func(...interface{}) (interface{}, error), arg
 func (m *Memoizer) ClearCache() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	m.cache = make(map[string]interface{})
+	m.cache = make(map[string]reflect.Value)
 }
