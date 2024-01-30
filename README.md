@@ -2,42 +2,31 @@
 oyzem - Simple Memoization Library for Go
 ===========================================
 
-.. |license| image:: https://img.shields.io/badge/License-BSD--3--Clause-blue.svg
-   :target: https://opensource.org/licenses/BSD-3-Clause
-.. |open_source| image:: https://img.shields.io/badge/Open%20Source-Yes-green.svg
-   :target: https://opensource.org/
+[![License](https://img.shields.io/badge/License-BSD--3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Yes-green.svg)](https://opensource.org/)
 
-How to Install
---------------
+## How to Install
 
 Install `oyzem` using `go get`:
 
 ```bash
 go get -u github.com/simplyYan/oyzem
 ```
+## Introduction
 
-Introduction
-------------
-
-`oyzem` is a lightweight and easy-to-use Go library for memoization, providing a simple mechanism to cache function results and improve performance.
-
+oyzem is a lightweight and easy-to-use Go library for memoization, providing a simple mechanism to cache function results and improve performance.
 Features
---------
 
-- **Easy**: Simple API for memoizing functions.
-- **Fast**: Efficient caching using a mutex for thread safety.
-- **Lightweight**: Minimalistic design with a focus on simplicity.
-- **Objective**: Aims to provide a clear and straightforward memoization solution.
+- Easy: Simple API for memoizing functions.
+- Fast: Efficient caching using a mutex for thread safety.
+- Lightweight: Minimalistic design with a focus on simplicity.
+- Objective: Aims to provide a clear and straightforward memoization solution.
 
-License
--------
+## License
 
-`oyzem` is distributed under the BSD-3-Clause License. See the [LICENSE](LICENSE) file for details.
+oyzem is distributed under the BSD-3-Clause License. See the LICENSE file for details.
 
-
-
-Example
---------------
+## Example
 ```go
 package main
 
@@ -61,8 +50,7 @@ func main() {
     fmt.Println("Result:", result)
 }
 ```
-How to Contribute
---------------
+## How to Contribute
 
 Contributions to oyzem are welcome! If you want to add, fix, or improve features, follow these steps:
 
