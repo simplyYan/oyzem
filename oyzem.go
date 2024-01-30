@@ -2,6 +2,7 @@ package oyzem
 
 import (
 	"fmt"
+	"reflect"
 	"sync"
 )
 
@@ -25,13 +26,27 @@ func (m *Memoizer) key(args ...interface{}) string {
 }
 
 func (m *Memoizer) Memoize(fn interface{}) (func(...interface{}) (interface{}, error), error) {
-	// Verifica se a função passada é válida
-	fnType := fmt.Sprintf("%T", fn)
-	if fnType != "func(...interface{}) interface {}" {
-		return nil, fmt.Errorf("função com assinatura inválida: %s", fnType)
+	fnType := reflect.TypeOf(fn)
+	if fnType.Kind() != reflect.Func {
+		return nil, fmt.Errorf("not a function")
 	}
 
 	return func(args ...interface{}) (interface{}, error) {
+		fnValue := reflect.ValueOf(fn)
+		if fnType.NumIn() != len(args) {
+			return nil, fmt.Errorf("incorrect number of arguments")
+		}
+
+		var inArgs []reflect.Value
+		for i, arg := range args {
+			argType := fnType.In(i)
+			if reflect.TypeOf(arg) != argType {
+				return nil, fmt.Errorf("incorrect argument type for parameter %d", i+1)
+			}
+
+			inArgs = append(inArgs, reflect.ValueOf(arg))
+		}
+
 		key := m.key(args...)
 		m.mu.Lock()
 		defer m.mu.Unlock()
@@ -40,7 +55,8 @@ func (m *Memoizer) Memoize(fn interface{}) (func(...interface{}) (interface{}, e
 			return result, nil
 		}
 
-		result := fn.(func(...interface{}) interface{})(args...)
+		resultValues := fnValue.Call(inArgs)
+		result := resultValues[0].Interface()
 		m.cache[key] = result
 		return result, nil
 	}, nil
