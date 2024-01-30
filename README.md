@@ -26,7 +26,7 @@ Features
 
 oyzem is distributed under the BSD-3-Clause License. See the LICENSE file for details.
 
-## Example
+## Examples
 ```go
 package main
 
@@ -50,6 +50,38 @@ func main() {
     fmt.Println("Result:", result)
 }
 ```
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/simplyYan/oyzem"
+)
+
+func main() {
+	// Create a new Memoizer instance
+	memoizer := oyzem.New()
+
+	// Memoize a function
+	memoizedFn, _ := memoizer.Memoize(func(a, b int) int {
+		fmt.Println("Performing calculation...")
+		return a + b
+	})
+
+	// Run the memoized function
+	result1, _ := memoizer.Run(memoizedFn, 2, 3)
+	fmt.Println("Result 1:", result1)
+
+	// Run the memoized function again (result obtained from the cache)
+	result2, _ := memoizer.Run(memoizedFn, 2, 3)
+	fmt.Println("Result 2 (from cache):", result2)
+
+	// Run the memoized function with different arguments
+	result3, _ := memoizer.Run(memoizedFn, 4, 5)
+	fmt.Println("Result 3:", result3)
+}
+
+``
 ## How to Contribute
 
 Contributions to oyzem are welcome! If you want to add, fix, or improve features, follow these steps:
